@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>destination3</title>
+    <style>
+      .container {
+        display: flex;
+        /* position: fixed; */
+        width: 100%;
+      }
+      .container1 {
+        width: 63%;
+      }
+      .container1 > div {
+        display: flex;
+        justify-content: space-between;
+      }
+      .container2 {
+        width: 33%;
+        height: 700px;
+      }
+      img {
+        width: 70%;
+        height: 70%;
+      }
+      .div1 {
+        display: flex;
+        justify-content: space-between;
+      }
+      input {
+        width: 570px;
+        height: 50px;
+        border-radius: 7px;
+      }
+      select {
+        width: 570px;
+        height: 50px;
+        border-radius: 7px;
+      }
+      #bookingTotal {
+        display: flex;
+        justify-content: space-around;
+      }
+      #totalTax {
+        display: flex;
+        justify-content: space-around;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="container1">
+        <h2>Guest Information</h2>
+        <br /><br />
+        <div>
+          <label for="">Name</label>
+          <input type="text" placeholder="Enter Your Name" />
+        </div>
+        <br /><br />
+        <div>
+          <label for="">Gender</label>
+          <select name="Gender" id="">
+            <option value="">Male</option>
+            <option value="">Female</option>
+            <option value="">Other</option>
+          </select>
+        </div>
+        <br /><br />
+        <div>
+          <label for="">Email</label>
+          <input type="text" placeholder="Enter Your Email" />
+        </div>
+        <br /><br />
+        <div>
+          <label for="">Mobile No</label>
+          <input type="tel" placeholder="Enter Mobile No" />
+        </div>
+        <br /><br />
+        <div>
+          <label for="">Adress</label>
+          <input type="text" placeholder="Enter Your Adress" />
+        </div>
+        <br /><br />
+        <h2>Property Policy</h2>
+        <p>
+          - Guests are required to pay a 21% advance at the time of booking
+          itself.
+        </p>
+
+        <p>
+          - We strictly DO NOT allow a group of more than 8 people. In case of a
+          group of 4 or more, you might be purposefully allotted different dorm
+          rooms. Further, if the group behaviour is deemed unfit at the
+          property, the Zostel Property Manager, upon subjective evaluation,
+          retains the full right to take required action which may also result
+          in an on-spot cancellation without refunds.
+        </p>
+
+        <p>
+          - Children below 18 years of age are not permitted entry/stay at any
+          of our hostels, with or without guardians. We do not recommend
+          families.
+        </p>
+        <p>
+          - Our standard check-in time is 12 PM and the standard check-out time
+          is 10 AM
+        </p>
+        <p>
+          - We only accept a government ID as valid identification proof. No
+          local IDs shall be accepted at the time of check-in.
+        </p>
+        <p>
+          - Guests are not permitted to bring outsiders inside the hostel
+          campus.
+        </p>
+        <p>
+          - We believe in self-help and do not provide luggage assistance or
+          room services.
+        </p>
+        <p>
+          - Drugs and any substance abuse is strictly banned inside and around
+          the property.
+        </p>
+        <p>
+          - Alcohol consumption is strictly prohibited in and around the
+          property premises.
+        </p>
+        <p>- Right to admission reserved.</p>
+        <h2>Cancellation Policykeyboard_arrow_up</h2>
+        <p>
+          We understand that sometimes plans change. Hence, to make it light on
+          your pocket, we are only charging a 21% advance, which is on a
+          non-refundable basis.
+        </p>
+
+        <h4>NOTE:</h4>
+        <p>
+          - 21% advance payment is non-refundable at all times, as stated above.
+        </p>
+        <p>
+          - If you have paid any amount over this 21%, it stands applicable for
+          a credit only if the cancellation is informed 7 days or more in
+          advance. You will be able to avail the credited amount for any future
+          booking at any of our properties.
+        </p>
+        <p>
+          - If informed within 7 days of the standard check-in time (12 pm), the
+          amount shall be adjusted against the cancellation fee.
+        </p>
+
+        <p>
+          For any other queries, please reach out to us at
+          reservations@zostel.com.
+        </p>
+      </div>
+      <div class="container2">
+        <h1>Summary</h1>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  var bookings = JSON.parse(localStorage.getItem("bookTheRoom")) || [];
+  var container2 = document.querySelector(".container2");
+  if (bookings.length == 0) {
+    container2.innerText = "You Have No Bookings.Please Book The Room";
+  } else {
+    displayBookings();
+    calculateTotal();
+  }
+  function displayBookings() {
+    bookings.map(function (elem) {
+      var div1 = document.createElement("div");
+      div1.setAttribute("class", "div1");
+      var div2 = document.createElement("div");
+      // div2.setAttribute("class","image")
+      var div3 = document.createElement("div");
+      div1.append(div2, div3);
+      var image = document.createElement("img");
+      image.setAttribute("src", elem.img_url);
+      image.setAttribute("alt", elem.roomDetail);
+      div2.append(image);
+      var h2 = document.createElement("h3");
+      h2.innerText = elem.roomDetail;
+      var price = document.createElement("p");
+      price.innerText = "₹ " + elem.bookingPrice;
+      div3.append(h2, price);
+      container2.append(div1);
+    });
+  }
+  function calculateTotal() {
+    var total = bookings.reduce(function (acc, curr) {
+      return acc + JSON.parse(curr.bookingPrice);
+    }, 0);
+    console.log(total);
+    var bookingTotal = document.createElement("h5");
+    bookingTotal.innerText = "₹ " + total;
+    var p = document.createElement("p");
+    p.innerText = "Total Amount";
+    var div = document.createElement("div");
+    div.append(p, bookingTotal);
+    div.setAttribute("id", "bookingTotal");
+    var totalTax = document.createElement("h5");
+    totalTax.innerText =
+      "₹ " + (JSON.parse(total) + (25 / 100) * JSON.parse(total));
+    localStorage.setItem(
+      "totalTax",
+      JSON.parse(total) + (25 / 100) * JSON.parse(total)
+    );
+    var p1 = document.createElement("p");
+    p1.innerText = "Total amount(incl tax)";
+    var div1 = document.createElement("div");
+    div1.append(p1, totalTax);
+    div1.setAttribute("id", "totalTax");
+    document.querySelector(".container2").append(div, div1);
+  }
+</script>
